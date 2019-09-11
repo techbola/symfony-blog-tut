@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,16 +37,24 @@ class PostController extends AbstractController
     public function create(Request $request)
     {
         $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
 
-        $post->setTitle('This is a new title');
+        $form->handleRequest($request);
 
-//        entity manager => communicates with the database
-        $em = $this->getDoctrine()->getManager();
+        $form->getErrors();
 
-        $em->persist($post);
-        $em->flush();
+        if ($form->isSubmitted()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
 
-        return new Response('Post was created');
+            $this->addFlash('success', 'Post added!');
+            return $this->redirect($this->generateUrl('post.index'));
+        }
+
+        return $this->render('post/create.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -58,5 +67,22 @@ class PostController extends AbstractController
         return $this->render('post/show.html.twig', [
             'post' => $post
         ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     * @param Post $post
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function remove(Post $post)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($post);
+        $em->flush();
+
+        $this->addFlash('success', 'Post removed!');
+
+        return $this->redirect($this->generateUrl('post.index'));
     }
 }

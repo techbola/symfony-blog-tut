@@ -3,7 +3,17 @@
 {% block title %}Blog{% endblock %}
 
 {% block body %}
+
+    <div class="col-md-12 p-2">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+
     <h2>List of all posts</h2>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -22,7 +32,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="{{ path('post.delete', {id: post.id}) }}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
             {% endfor %}
