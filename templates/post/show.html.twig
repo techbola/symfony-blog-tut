@@ -6,14 +6,14 @@
 
 {% block body %}
 
-    <div style="display: flex; flex-direction: column;">
+    <div class="col-md-6" style="display: flex; flex-direction: column;">
         <div>
             <h2>{{ post.title }}</h2>
             <em>{{ post.category }}</em>
         </div>
         <hr>
         <div>
-            <img src="{{ '/uploads/' ~ post.image }}" alt="{{ post.title }}">
+            <img src="{{ '/uploads/' ~ post.image }}" alt="{{ post.title }}" style="width: 100%;max-height: 300px;">
             <p>The description of the post wil be shown here</p>
         </div>
     </div>

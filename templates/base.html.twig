@@ -16,27 +16,34 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('post.index') }}">All Post
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('post.create') }}">Create Post</a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-                    </li>
+                    {% if app.user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('post.index') }}">All Post
+                                <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('post.create') }}">Create Post</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('register') }}">Register</a>
-                    </li>
-
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li class="nav-item float-right">
                             <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
                         </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('register') }}">Register</a>
+                        </li>
                     {% endif %}
+
+{#                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
+{#                        <li class="nav-item float-right">#}
+{#                            <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>#}
+{#                        </li>#}
+{#                    {% endif %}#}
                     
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
